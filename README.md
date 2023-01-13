@@ -49,9 +49,11 @@ _Try to imagine a wild product owner approaching you and wanting to improve the 
 
 * As a customer I would like to be able to delete the entire shopping cart at once
 
-* As a customer I want to be able to see how many shopping cart items I can add (max 10 items, not product amount combined)
+* It's not allowed to have more than 10 products to the cart
 
-* As a customer I would like to be informed when I have reached the limit
+* It is not allowed to add a quantity of items to the shopping cart that exceeds the "maxAmount" of the respective product
+
+* The customer must be informed in an appropriate manner when one of the limits has been reached
 
 * As a customer I want to see a graphical overlay when I confirm the purchase to know that my order was successful
 
