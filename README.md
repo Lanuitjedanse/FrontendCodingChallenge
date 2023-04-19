@@ -30,9 +30,6 @@ _Hint: You will find the products in the data folder_
 
 ## The task
 
-_Try to imagine a wild product owner approaching you and wanting to improve the shopping experience for our customers. The following requirements are specified_
-
-
 **Try to imagine a wild :upside_down_face: product owner approaching you and wanting to improve the shopping experience for our customers. The following requirements are specified*
 
 -   As a customer I want to be able to select products from the drop down list.
