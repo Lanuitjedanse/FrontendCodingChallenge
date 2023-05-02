@@ -8,6 +8,8 @@ Greetings and welcome to the Bike24 Frontend challenge
 ## The rules
 -   The visualisation above is just a suggestion, it's up to **you** to implement it according to **your imagination**
 
+-   Most parts of our frontend are written in React, so using React for your task is an advantage 
+
 -   Focus on **code quality** and **best practices**
 
 -   We expect some unit- and integration-tests. Use the testing frameworks you like
