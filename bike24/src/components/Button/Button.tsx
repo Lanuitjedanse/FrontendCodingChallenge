@@ -23,7 +23,7 @@ export const BasicButton = ({
   size = "small",
   disabled = false,
   label,
-  ...props
+  onClick,
 }: ButtonProps) => {
   return (
     <Button
@@ -31,7 +31,7 @@ export const BasicButton = ({
       color={color}
       size={size}
       disabled={disabled}
-      {...props}
+      onClick={onClick}
     >
       {label}
     </Button>
