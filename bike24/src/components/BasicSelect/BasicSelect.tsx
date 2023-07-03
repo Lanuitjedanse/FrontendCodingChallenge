@@ -4,12 +4,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-
+import FormHelperText from "@mui/material/FormHelperText";
+import Product from "@/types/product.type";
 interface BasicSelectProps {
   primary?: boolean;
   label: string;
-  options: { value: string }[];
-  onClick?: () => void;
+  options: Product[];
+  helperText: String;
   onChange?: () => void;
 }
 
@@ -34,9 +35,12 @@ export default function BasicSelect({ ...props }: BasicSelectProps) {
         >
           {props.options &&
             props.options.map((option) => (
-              <MenuItem value={option.value}>{option.value}</MenuItem>
+              <MenuItem value={option.productName}>
+                {option.productName}
+              </MenuItem>
             ))}
         </Select>
+        <FormHelperText>{props.helperText}</FormHelperText>
       </FormControl>
     </Box>
   );
