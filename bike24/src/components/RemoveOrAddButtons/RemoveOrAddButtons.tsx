@@ -8,12 +8,14 @@ import NumberIndicator from "../NumberIndicator/NumberIndicator";
 interface RemoveOrAddButtonsProps {
   quantity: number;
   maxQuantity: number;
+  quantityToSubstractOrAdd?: number;
   onQuantityChange: (newQuantity: number) => void;
 }
 
 export default function RemoveOrAddButtons({
   quantity,
   maxQuantity,
+  quantityToSubstractOrAdd = 1,
   onQuantityChange,
 }: RemoveOrAddButtonsProps) {
   const [newQuantity, setNewQuantity] = useState(0);
@@ -22,17 +24,17 @@ export default function RemoveOrAddButtons({
     setNewQuantity(quantity);
   }, [quantity]);
 
-  const handleAddOne = (quantity: number): void => {
+  const handleAddOne = (): void => {
     if (quantity < maxQuantity) {
-      const updatedQuantity = quantity++;
+      const updatedQuantity = quantity + quantityToSubstractOrAdd;
       setNewQuantity(updatedQuantity);
       onQuantityChange(updatedQuantity);
     }
   };
 
-  const handleRemoveOne = (quantity: number): void => {
-    if (quantity < 1) {
-      const updatedQuantity = quantity--;
+  const handleRemoveOne = (): void => {
+    if (quantity >= 1) {
+      const updatedQuantity = quantity - quantityToSubstractOrAdd;
       setNewQuantity(updatedQuantity);
       onQuantityChange(updatedQuantity);
     }
@@ -41,26 +43,29 @@ export default function RemoveOrAddButtons({
   return (
     <div className="flex items-center space-x-3">
       <IconButton
+        data-testid="remove-or-add-buttons__remove"
         aria-label="delete"
         color="primary"
         disabled={quantity < 1}
         size="small"
-        onClick={() => handleRemoveOne(quantity)}
+        onClick={handleRemoveOne}
       >
         <RemoveIcon fontSize="inherit" />
       </IconButton>
 
       <NumberIndicator
+        dataTestid="remove-or-add-buttons__new-quantity"
         value={newQuantity}
         width="w-12"
         height="h-12"
       ></NumberIndicator>
       <IconButton
+        data-testid="remove-or-add-buttons__add"
         aria-label="add"
         color="primary"
         disabled={quantity >= maxQuantity}
         size="small"
-        onClick={() => handleAddOne(quantity)}
+        onClick={handleAddOne}
       >
         <AddIcon fontSize="inherit" />
       </IconButton>
