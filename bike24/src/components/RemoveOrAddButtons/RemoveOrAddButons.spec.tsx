@@ -27,7 +27,6 @@ test("If I click on the + button and conditions matches it increases the quantit
     <RemoveOrAddButtons
       quantity={5}
       maxQuantity={10}
-      quantityToSubstractOrAdd={1}
       onQuantityChange={mockOnQuantityChange}
     />
   );
@@ -50,7 +49,6 @@ test("If I click on the + button and conditions does not match it does not incre
     <RemoveOrAddButtons
       quantity={10}
       maxQuantity={10}
-      quantityToSubstractOrAdd={1}
       onQuantityChange={mockOnQuantityChange}
     />
   );
