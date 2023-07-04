@@ -35,7 +35,7 @@ export default function BasicSelect({ ...props }: BasicSelectProps) {
         >
           {props.options &&
             props.options.map((option) => (
-              <MenuItem value={option.productName}>
+              <MenuItem key={option.id} value={option.productName}>
                 {option.productName}
               </MenuItem>
             ))}

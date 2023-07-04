@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import "../../app/globals.css";
-import { BasicButton } from "./Button";
+import { BasicButton } from "./BasicButton";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof BasicButton> = {
