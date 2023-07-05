@@ -26,7 +26,7 @@ export default function DataTable({ products }: ProductsOverviewProps) {
       headerName: "Product Name",
       sortable: false,
       type: "string",
-      width: 200,
+      width: 250,
       headerAlign: "right",
       align: "right",
     },
