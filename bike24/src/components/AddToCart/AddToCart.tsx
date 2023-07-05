@@ -6,14 +6,15 @@ import BasicSelect from "../BasicSelect/BasicSelect";
 import StepSlider from "../StepSlider/StepSlider";
 import NumberIndicator from "../NumberIndicator/NumberIndicator";
 import ConfirmCart from "../ConfirmCart/ConfirmCart";
+import SelectedProduct from "@/types/selected-product.type";
 
 interface AddToCartProps {
   products: Product[];
-  onAddProductToCart: (
-    product: Product,
-    desiredQuantity: number,
-    totalPrice: number
-  ) => void;
+  onAddProductToCart: ({
+    product,
+    desiredQuantity,
+    totalPrice,
+  }: SelectedProduct) => void;
 }
 
 export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
@@ -35,17 +36,19 @@ export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
   const handleChangeDesiredQuantity = (e: number) => {
     setDesiredProductQuantity(e);
 
-    const totalPrice = getTotalPrice(
-      desiredProductQuantity,
-      selectedProduct?.price as number
-    );
+    const totalPrice = getTotalPrice(e, selectedProduct?.price as number);
     setTotalPrice(totalPrice);
   };
 
   const handleAddProductToCart = () => {
     if (selectedProduct) {
-      onAddProductToCart(selectedProduct, desiredProductQuantity, totalPrice);
-      setSelectedProduct(null);
+      const newSelectedProduct = {
+        product: selectedProduct,
+        desiredQuantity: desiredProductQuantity,
+        totalPrice,
+      };
+      onAddProductToCart(newSelectedProduct);
+      console.log("child", selectedProduct, desiredProductQuantity, totalPrice);
       setDesiredProductQuantity(0);
       setTotalPrice(0);
     }

@@ -2,14 +2,27 @@ import { BasicButton } from "../BasicButton/BasicButton";
 import NumberIndicator from "../NumberIndicator/NumberIndicator";
 
 interface ConfirmCartProps {
-  totalPrice: string;
+  totalPrice: number;
+  disabled: boolean;
+  label: string;
+  onClick: () => void;
 }
 
-export default function ConfirmCart({ totalPrice }: ConfirmCartProps) {
+export default function ConfirmCart({
+  totalPrice,
+  disabled,
+  label,
+  onClick,
+}: ConfirmCartProps) {
   return (
     <div className="flex space-x-3">
-      <NumberIndicator value={`${totalPrice} €`} />
-      <BasicButton color="success" label="Confirm order" />
+      <NumberIndicator value={`${totalPrice} €`} width="w-32" />
+      <BasicButton
+        color="success"
+        label={label}
+        disabled={disabled}
+        onClick={onClick}
+      />
     </div>
   );
 }
