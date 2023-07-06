@@ -6,12 +6,16 @@ import BasicSelect from "../BasicSelect/BasicSelect";
 import StepSlider from "../StepSlider/StepSlider";
 import NumberIndicator from "../NumberIndicator/NumberIndicator";
 import ConfirmCart from "../ConfirmCart/ConfirmCart";
-import SelectedProduct from "@/types/selected-product.type";
+import { SelectedProduct } from "@/types/selected-product.type";
 
 interface AddToCartProps {
   products: Product[];
   onAddProductToCart: ({
-    product,
+    id,
+    productName,
+    maxAmount,
+    taxRate,
+    price,
     desiredQuantity,
     totalPrice,
   }: SelectedProduct) => void;
@@ -23,7 +27,6 @@ export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
     useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
-  // move this method to a util file
   const getTotalPrice = (quantity: number, unitPrice: number): number => {
     const totalPrice = quantity * unitPrice;
     return Number(totalPrice.toFixed(2));
@@ -43,12 +46,12 @@ export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
   const handleAddProductToCart = () => {
     if (selectedProduct) {
       const newSelectedProduct = {
-        product: selectedProduct,
+        ...selectedProduct,
         desiredQuantity: desiredProductQuantity,
         totalPrice,
       };
+
       onAddProductToCart(newSelectedProduct);
-      console.log("child", selectedProduct, desiredProductQuantity, totalPrice);
       setDesiredProductQuantity(0);
       setTotalPrice(0);
     }
@@ -57,8 +60,6 @@ export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
   useEffect(() => {
     setDesiredProductQuantity(0);
     setTotalPrice(0);
-
-    console.log("selectedProduct", selectedProduct);
   }, [selectedProduct]);
 
   useEffect(() => {
@@ -70,7 +71,7 @@ export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
   }, [selectedProduct?.price, desiredProductQuantity, totalPrice]);
 
   return (
-    <div className="flex space-x-3 items-center">
+    <div className="flex flex-col md:flex-row space-y-3 space-x-3 items-center">
       <BasicSelect
         options={products}
         label="Products"
@@ -86,17 +87,19 @@ export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
         handleChangeCallback={handleChangeDesiredQuantity}
       ></StepSlider>
 
-      <NumberIndicator
-        width="w-12"
-        height="h-12"
-        value={desiredProductQuantity}
-      ></NumberIndicator>
-      <span>x</span>
-      <span>{selectedProduct?.price || 0} €</span>
+      <div className="flex items-center space-x-3">
+        <NumberIndicator
+          width="w-12"
+          height="h-12"
+          value={desiredProductQuantity}
+        ></NumberIndicator>
+        <span>x</span>
+        <span>{selectedProduct?.price || 0} €</span>
+      </div>
       <ConfirmCart
         label="Add to cart"
         totalPrice={totalPrice || 0}
-        disabled={totalPrice <= 0}
+        disabled={!selectedProduct || !totalPrice}
         onClick={handleAddProductToCart}
       ></ConfirmCart>
     </div>

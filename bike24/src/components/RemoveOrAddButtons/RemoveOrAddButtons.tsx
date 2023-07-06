@@ -41,34 +41,43 @@ export default function RemoveOrAddButtons({
   };
 
   return (
-    <div className="flex items-center space-x-3">
-      <IconButton
-        data-testid="remove-or-add-buttons__remove"
-        aria-label="delete"
-        color="primary"
-        disabled={quantity < 1}
-        size="small"
-        onClick={handleRemoveOne}
-      >
-        <RemoveIcon fontSize="inherit" />
-      </IconButton>
+    <div className="h-full flex flex-col items-center space-y-2 relative">
+      <div className="flex-1 flex items-center space-x-3">
+        <IconButton
+          data-testid="remove-or-add-buttons__remove"
+          aria-label="delete"
+          color="primary"
+          disabled={quantity < 1}
+          size="small"
+          onClick={handleRemoveOne}
+        >
+          <RemoveIcon fontSize="inherit" />
+        </IconButton>
 
-      <NumberIndicator
-        dataTestid="remove-or-add-buttons__new-quantity"
-        value={newQuantity}
-        width="w-12"
-        height="h-12"
-      ></NumberIndicator>
-      <IconButton
-        data-testid="remove-or-add-buttons__add"
-        aria-label="add"
-        color="primary"
-        disabled={quantity >= maxQuantity}
-        size="small"
-        onClick={handleAddOne}
-      >
-        <AddIcon fontSize="inherit" />
-      </IconButton>
+        <NumberIndicator
+          dataTestid="remove-or-add-buttons__new-quantity"
+          value={newQuantity}
+          width="w-12"
+          height="h-12"
+        ></NumberIndicator>
+
+        <IconButton
+          data-testid="remove-or-add-buttons__add"
+          aria-label="add"
+          color="primary"
+          disabled={quantity >= maxQuantity}
+          size="small"
+          onClick={handleAddOne}
+        >
+          <AddIcon fontSize="inherit" />
+        </IconButton>
+      </div>
+
+      {quantity >= maxQuantity && (
+        <p className="absolute bottom-0 text-xs text-red-500 -mt-12">
+          Max quantity reached
+        </p>
+      )}
     </div>
   );
 }

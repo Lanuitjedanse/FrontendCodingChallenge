@@ -1,7 +1,12 @@
+import { UUID } from "crypto";
 import Product from "./product.type";
 
-export default interface SelectedProduct {
-  product: Product;
+export interface SelectedProduct {
+  id: UUID;
+  productName: string;
+  maxAmount: number;
+  taxRate: number;
+  price: number;
   desiredQuantity: number;
   totalPrice: number;
 }

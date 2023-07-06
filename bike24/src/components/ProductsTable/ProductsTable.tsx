@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid";
-
+import { SelectedProduct } from "@/types/selected-product.type";
 import { UUID } from "crypto";
 import RemoveOrAddButtons from "../RemoveOrAddButtons/RemoveOrAddButtons";
 import { IconButton } from "@mui/material";
@@ -8,21 +8,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmCart from "../ConfirmCart/ConfirmCart";
 
 interface ProductsOverviewProps {
-  products: {
-    id: UUID;
-    name: string;
-    quantity: number;
-    totalPrice?: number;
-    unitPrice: number;
-    taxRate?: number | undefined;
-    maxQuantity: number;
-  }[];
+  products: SelectedProduct[];
+  onConfirmOrder: (products: SelectedProduct[]) => void;
+  onDeleteRows: (products: SelectedProduct[] | []) => void;
 }
 
-export default function DataTable({ products }: ProductsOverviewProps) {
+export default function ProductsTable({
+  products,
+  onConfirmOrder,
+  onDeleteRows,
+}: ProductsOverviewProps) {
   const columns: GridColDef[] = [
     {
-      field: "name",
+      field: "productName",
       headerName: "Product Name",
       sortable: false,
       type: "string",
@@ -31,12 +29,12 @@ export default function DataTable({ products }: ProductsOverviewProps) {
       align: "right",
     },
     {
-      field: "component",
+      field: "desiredQuantity",
       headerName: "Quantity",
       renderCell: (params) => (
         <RemoveOrAddButtons
-          quantity={params.row.quantity}
-          maxQuantity={params.row.maxQuantity}
+          quantity={params.row.desiredQuantity}
+          maxQuantity={params.row.maxAmount}
           onQuantityChange={(newQuantity) =>
             handleQuantityChange(params.row.id, newQuantity)
           }
@@ -48,7 +46,7 @@ export default function DataTable({ products }: ProductsOverviewProps) {
       width: 150,
     },
     {
-      field: "unitPrice",
+      field: "price",
       headerName: "Unit Price",
       type: "number",
       sortable: false,
@@ -69,41 +67,42 @@ export default function DataTable({ products }: ProductsOverviewProps) {
       align: "right",
       width: 100,
       valueFormatter: (params) => {
-        const formattedValue = Number(params.value).toFixed(2);
-        return `${formattedValue} €`;
+        return `${params.value} €`;
       },
     },
   ];
 
-  const [allProducts, setAllProducts] = React.useState<
-    ProductsOverviewProps["products"]
-  >([]);
-
+  const [allProducts, setAllProducts] = React.useState<SelectedProduct[]>([]);
   const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
   const [allRowsSelected, setAllRowsSelected] = React.useState<boolean>(false);
-  const [totalPrice, setTotalPrice] = React.useState<string>("0");
+  const [totalPrice, setTotalPrice] = React.useState<number>(0);
+
+  const getRowId = (row: SelectedProduct) => row.id;
 
   React.useEffect(() => {
-    const updatedProducts = products.map((product) => {
+    const updatedProducts = products.map((item) => {
+      console.log("item", item);
       return {
-        id: product.id,
-        name: product.name,
-        quantity: product.quantity,
-        totalPrice: (product.unitPrice as number) * product.quantity,
-        unitPrice: product.unitPrice,
-        taxRate: product.taxRate,
-        maxQuantity: product.maxQuantity,
+        id: item.id,
+        productName: item.productName,
+        price: item.price,
+        taxRate: item.taxRate,
+        maxAmount: item.maxAmount,
+        desiredQuantity: item.desiredQuantity,
+        totalPrice: item.price * item.desiredQuantity,
       };
     });
     setAllProducts(updatedProducts);
+  }, [products]);
 
-    const totalPrice = updatedProducts.reduce(
+  React.useEffect(() => {
+    const totalPrice = allProducts.reduce(
       (accumulator, product) => accumulator + product.totalPrice,
       0
     );
 
-    setTotalPrice(totalPrice.toFixed(2));
-  }, [products, allProducts]);
+    setTotalPrice(Number(totalPrice.toFixed(2)));
+  }, [allProducts]);
 
   React.useEffect(() => {
     setAllRowsSelected(products.length === selectedRows.length);
@@ -116,32 +115,57 @@ export default function DataTable({ products }: ProductsOverviewProps) {
   const handleDeleteRows = (): void => {
     if (allRowsSelected) {
       setAllProducts([]);
+      onDeleteRows([]);
     } else if (selectedRows.length > 0) {
       const updatedProducts = allProducts.filter(
-        (product) => !selectedRows.includes(product.id)
+        (item) => !selectedRows.includes(item.id)
       );
       setAllProducts(updatedProducts);
+      onDeleteRows(updatedProducts);
     }
   };
 
   const handleQuantityChange = (productId: UUID, newQuantity: number): void => {
-    const updatedProducts = allProducts.map((product) => {
-      if (product.id === productId) {
-        return { ...product, quantity: newQuantity };
+    console.log("newQuantity", newQuantity);
+    const updatedProducts = allProducts.map((item) => {
+      if (item.id === productId) {
+        const totalPrice = item.price * newQuantity;
+        return { ...item, desiredQuantity: newQuantity, totalPrice };
       }
-      return product;
+      return item;
     });
-    setAllProducts(updatedProducts);
+
+    const filteredProducts = updatedProducts.filter(
+      (item) => item.desiredQuantity > 0
+    );
+
+    setAllProducts(filteredProducts);
+  };
+
+  const handleConfirmOrder = () => {
+    onConfirmOrder(allProducts);
   };
 
   return (
     <div className="space-y-3" style={{ height: "100%", width: "100%" }}>
-      <IconButton onClick={handleDeleteRows}>
+      {allProducts.length === 0 && (
+        <div>
+          You have no products in your cart yet, select some from the dropdown
+          list
+        </div>
+      )}
+
+      <IconButton
+        disabled={selectedRows.length <= 0}
+        onClick={handleDeleteRows}
+      >
         <DeleteIcon />
       </IconButton>
       <DataGrid
         rows={allProducts}
+        getRowId={getRowId}
         columns={columns}
+        rowHeight={124}
         rowSelectionModel={selectedRows}
         onRowSelectionModelChange={handleSelectionModelChange}
         initialState={{
@@ -154,7 +178,14 @@ export default function DataTable({ products }: ProductsOverviewProps) {
         disableRowSelectionOnClick={true}
         disableColumnMenu={true}
       />
-      <ConfirmCart totalPrice={totalPrice} />
+
+      {/* move that component and its logic outside of the table */}
+      <ConfirmCart
+        disabled={!totalPrice || !products}
+        label="Confirm Purchase"
+        totalPrice={totalPrice}
+        onClick={handleConfirmOrder}
+      />
     </div>
   );
 }
