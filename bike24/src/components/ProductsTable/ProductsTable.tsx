@@ -9,7 +9,7 @@ import ConfirmCart from "../ConfirmCart/ConfirmCart";
 
 interface ProductsOverviewProps {
   products: SelectedProduct[];
-  onConfirmOrder: (products: SelectedProduct[]) => void;
+  onConfirmOrder: (products: SelectedProduct[], totalPrice: number) => void;
   onDeleteRows: (products: SelectedProduct[] | []) => void;
 }
 
@@ -24,7 +24,7 @@ export default function ProductsTable({
       headerName: "Product Name",
       sortable: false,
       type: "string",
-      width: 250,
+      width: 300,
       headerAlign: "right",
       align: "right",
     },
@@ -43,7 +43,7 @@ export default function ProductsTable({
       align: "center",
       headerAlign: "center",
       sortable: false,
-      width: 150,
+      width: 200,
     },
     {
       field: "price",
@@ -65,7 +65,7 @@ export default function ProductsTable({
       sortable: false,
       headerAlign: "right",
       align: "right",
-      width: 100,
+      width: 200,
       valueFormatter: (params) => {
         return `${params.value} €`;
       },
@@ -143,7 +143,7 @@ export default function ProductsTable({
   };
 
   const handleConfirmOrder = () => {
-    onConfirmOrder(allProducts);
+    onConfirmOrder(allProducts, totalPrice);
   };
 
   return (
