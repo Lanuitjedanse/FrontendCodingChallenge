@@ -1,5 +1,5 @@
-import "@/app/globals.css";
-import Header from "@/components/Header/Header";
+import "../../app/globals.css";
+import Header from "../Header/Header";
 import { useRouter, NextRouter } from "next/router";
 
 interface BasicPageLayout {

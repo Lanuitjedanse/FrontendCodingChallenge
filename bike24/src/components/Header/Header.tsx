@@ -11,10 +11,7 @@ interface HeaderProps {
 
 export default function Header({
   quantity,
-  listItem = [
-    { name: "Products", href: "/" },
-    { name: "My Orders", href: "/orders" },
-  ],
+  listItem = [{ name: "My Orders", href: "/orders" }],
   router,
 }: HeaderProps) {
   return (
