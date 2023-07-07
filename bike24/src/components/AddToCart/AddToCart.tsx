@@ -98,6 +98,7 @@ export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
       </div>
       <ConfirmCart
         label="Add to cart"
+        color="primary"
         totalPrice={totalPrice || 0}
         disabled={!selectedProduct || !totalPrice}
         onClick={handleAddProductToCart}

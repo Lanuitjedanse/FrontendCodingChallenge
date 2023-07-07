@@ -13,7 +13,7 @@ type Story = StoryObj<typeof Cart>;
 
 export const Primary: Story = {
   args: {
-    products: [
+    availableProducts: [
       {
         id: "2fdc8b4e-8920-11ec-aadd-cbe09129765b",
         productName: "T-Shirt",

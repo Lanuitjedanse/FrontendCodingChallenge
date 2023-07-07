@@ -12,5 +12,5 @@ export default meta;
 type Story = StoryObj<typeof ConfirmCart>;
 
 export const Primary: Story = {
-  args: { totalPrice: "678940" },
+  args: { totalPrice: 678940 },
 };

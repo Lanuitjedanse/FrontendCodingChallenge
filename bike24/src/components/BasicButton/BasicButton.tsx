@@ -2,6 +2,7 @@
 
 import React from "react";
 import Button from "@mui/material/Button";
+import "./BasicButton.css";
 
 export interface ButtonProps {
   variant?: "contained" | "outlined" | "text";

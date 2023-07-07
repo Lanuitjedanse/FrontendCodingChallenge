@@ -6,7 +6,15 @@ import ProductsTable from "../ProductsTable/ProductsTable";
 import { useEffect, useState } from "react";
 import { UUID } from "crypto";
 
-export default function Cart() {
+interface CartProps {
+  availableProducts: Product[];
+  onConfirmOrder: (
+    selectedProducts: SelectedProduct[],
+    totalPrice: number
+  ) => void;
+}
+
+export default function Cart({ availableProducts, onConfirmOrder }: CartProps) {
   const [products, setProducts] = useState<Product[] | []>([]);
   const [selectedProducts, setSelectedProducts] = useState<
     SelectedProduct[] | []
@@ -18,37 +26,17 @@ export default function Cart() {
     setNewSelectedProduct(selectedProduct);
   };
 
-  // emit data to parent with order infos
-  const handleConfirmOrder = () => {};
+  const handleConfirmOrder = (
+    selectedProducts: SelectedProduct[],
+    totalPrice: number
+  ) => {
+    onConfirmOrder(selectedProducts, totalPrice);
+    setSelectedProducts([]);
+  };
 
   useEffect(() => {
-    // replace with rest call for products.json
-    const exampleProducts: Product[] = [
-      {
-        id: "2fdc8b4e-8920-11ec-aadd-cbe09129765b",
-        productName: "T-Shirt",
-        maxAmount: 2,
-        taxRate: 19,
-        price: 9.95,
-      },
-      {
-        id: "207dcb54-8920-11ec-876b-2346543311ec",
-        productName: "Bike",
-        maxAmount: 12,
-        taxRate: 19,
-        price: 999,
-      },
-      {
-        id: "1a2c79e4-8920-11ec-bd2d-7b195ee0d8a9",
-        productName: "E-Bike",
-        maxAmount: 12,
-        taxRate: 19,
-        price: 4999.95,
-      },
-    ];
-
-    setProducts(exampleProducts);
-  }, []);
+    setProducts(availableProducts);
+  }, [availableProducts]);
 
   useEffect(() => {
     if (newSelectedProduct) {

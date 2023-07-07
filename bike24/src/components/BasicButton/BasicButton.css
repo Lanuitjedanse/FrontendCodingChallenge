@@ -1,0 +1,7 @@
+.MuiButton-containedSuccess {
+  @apply px-4 py-2 rounded-md bg-green-600 text-white;
+}
+
+.MuiButton-containedPrimary {
+  @apply px-4 py-2 rounded-md bg-blue-600 text-white;
+}
