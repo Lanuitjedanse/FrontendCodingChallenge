@@ -25,3 +25,15 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.MuiButton-containedSuccess {
+  @apply px-4 py-2 rounded-md bg-green-700 text-white;
+}
+
+.MuiButton-containedPrimary {
+  @apply px-4 py-2 rounded-md bg-blue-500 text-white;
+}
+
+.error-message {
+  @apply text-xs text-red-500 absolute;
+}
