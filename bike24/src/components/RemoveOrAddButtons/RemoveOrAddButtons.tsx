@@ -74,7 +74,10 @@ export default function RemoveOrAddButtons({
       </div>
 
       {quantity >= maxQuantity && (
-        <p className="absolute bottom-0 text-xs text-red-500 -mt-12">
+        <p
+          data-testid="remove-or-add-buttons__error-message"
+          className="error-message bottom-0 -mt-12"
+        >
           Max quantity reached
         </p>
       )}

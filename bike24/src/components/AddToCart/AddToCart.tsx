@@ -120,7 +120,7 @@ export const AddToCart = ({
         ></StepSlider>
 
         {!isQuantityAllowed && (
-          <p className="error-message">
+          <p data-testid="add-to-cart__error-message" className="error-message">
             You have reached the max quantity for this product
           </p>
         )}

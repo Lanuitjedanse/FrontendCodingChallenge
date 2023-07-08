@@ -134,10 +134,10 @@ export default function ProductsTable({
   return (
     <div className="space-y-3" style={{ height: "100%", width: "100%" }}>
       {allProducts.length === 0 && (
-        <div>
+        <p>
           You have no products in your cart yet, select some from the dropdown
           list
-        </div>
+        </p>
       )}
 
       <IconButton
