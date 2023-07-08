@@ -51,15 +51,17 @@ export default function OrderConfirmation({
     }
   }, [selectedProducts]);
   return (
-    <div className="flex flex-col pt-20 justify-center items-center max-w-5xl">
-      <h1 className="font-bold text-5xl">Order #{orderReference} Confirmed!</h1>
+    <div className="flex flex-col pt-20 justify-center items-center md:max-w-5xl">
+      <h1 className="font-bold text-2xl md:text-5xl">
+        Order #{orderReference} Confirmed!
+      </h1>
       <CheckCircleIcon
         className="text-green-500"
         sx={{ fontSize: 200 }}
       ></CheckCircleIcon>
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 200 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="right">Product Name</TableCell>

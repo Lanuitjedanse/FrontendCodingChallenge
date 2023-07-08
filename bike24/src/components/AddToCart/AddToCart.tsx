@@ -126,7 +126,7 @@ export const AddToCart = ({
         )}
       </div>
 
-      <div className="flex items-center space-x-3 w-40 justify-center">
+      <div className="flex items-center space-x-3 w-40 pt-4 justify-center">
         <NumberIndicator
           width="w-12"
           height="h-12"
@@ -137,7 +137,7 @@ export const AddToCart = ({
           <span>{selectedProduct?.price || 0} €</span>
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full">
         <ConfirmCart
           data-tesid="add-to-cart__confirm-cart"
           label="Add to cart"

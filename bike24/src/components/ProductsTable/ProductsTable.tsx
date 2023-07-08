@@ -23,7 +23,7 @@ export default function ProductsTable({
       headerName: "Product Name",
       sortable: false,
       type: "string",
-      width: 300,
+      width: 200,
       headerAlign: "right",
       align: "right",
     },

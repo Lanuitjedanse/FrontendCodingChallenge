@@ -156,8 +156,8 @@ export default function Cart({
         onQuantityUpdate={onQuantityUpdate}
       ></ProductsTable>
 
-      <div className="flex justify-end items-center w-full space-x-3">
-        <div className="w-1/3">
+      <div className="flex flex-col md:flex-row justify-end items-center w-full space-y-3 md-space-y-0 space-x-3">
+        <div className="w-full md:w-1/3">
           <ProgressBar progress={selectedProducts.length * 10} maxValue={10} />
         </div>
         <ConfirmCart

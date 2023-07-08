@@ -82,13 +82,15 @@ export default function Index({ onConfirmOrder }: IndexProps) {
   return (
     <BasicPageLayout router={router} quantity={totalProductQuantity}>
       {products && (
-        <Cart
-          availableProducts={products}
-          onConfirmOrder={handleConfirmOrder}
-          onAddProductToCart={onIncreaseQuantity}
-          onDeleteProducts={onQuantityUpdate}
-          onQuantityUpdate={onQuantityUpdate}
-        ></Cart>
+        <div className="h-screen w-screen ">
+          <Cart
+            availableProducts={products}
+            onConfirmOrder={handleConfirmOrder}
+            onAddProductToCart={onIncreaseQuantity}
+            onDeleteProducts={onQuantityUpdate}
+            onQuantityUpdate={onQuantityUpdate}
+          ></Cart>
+        </div>
       )}
     </BasicPageLayout>
   );
