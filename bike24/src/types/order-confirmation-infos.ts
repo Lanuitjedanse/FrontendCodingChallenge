@@ -5,5 +5,5 @@ export interface OrderConfirmationInfos {
   totalPrice: number;
   totalProductQuantity: number;
   date?: Date;
-  orderNumber?: number;
+  orderReference?: string;
 }

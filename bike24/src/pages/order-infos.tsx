@@ -12,7 +12,7 @@ export default function OrderInfos() {
   const [order, setOrder] = useState<OrderConfirmationInfos | null>(null);
 
   const [productsTotalQuantity, setProductsTotalQuantity] = useState<number>(0);
-  let [orderNumber, setOrderNumber] = useState<number>(0);
+  let [orderReference, setOrderReference] = useState<string>("");
 
   const router = useRouter();
 
@@ -33,7 +33,7 @@ export default function OrderInfos() {
     };
 
     setOrder(orderInfos);
-    setOrderNumber(uuidv4().slice(1, 8).toUpperCase());
+    setOrderReference(uuidv4().slice(1, 8).toUpperCase());
   }, [router.query]);
   return (
     <div>
@@ -41,7 +41,7 @@ export default function OrderInfos() {
         <div className="flex flex-col items-center min-h-screen min-w-full justify-center">
           {order && (
             <OrderConfirmation
-              orderNumber={orderNumber}
+              orderReference={orderReference}
               totalProductQuantity={productsTotalQuantity}
               selectedProducts={order?.selectedProducts}
               totalPrice={order.totalPrice}

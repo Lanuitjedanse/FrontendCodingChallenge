@@ -32,7 +32,7 @@ export default function OrderConfirmation({
   selectedProducts,
   totalPrice,
   date,
-  orderNumber,
+  orderReference,
 }: OrderConfirmationInfos) {
   const [rows, setRows] = useState<ProductInfos[] | []>([]);
 
@@ -52,7 +52,7 @@ export default function OrderConfirmation({
   }, [selectedProducts]);
   return (
     <div className="flex flex-col pt-20 justify-center items-center max-w-5xl">
-      <h1 className="font-bold text-5xl">Order #{orderNumber} Confirmed!</h1>
+      <h1 className="font-bold text-5xl">Order #{orderReference} Confirmed!</h1>
       <CheckCircleIcon
         className="text-green-500"
         sx={{ fontSize: 200 }}
