@@ -31,6 +31,7 @@ export const BasicButton = ({
 }: ButtonProps) => {
   return (
     <Button
+      data-testid="basic-button"
       variant={variant}
       color={color}
       size={size}

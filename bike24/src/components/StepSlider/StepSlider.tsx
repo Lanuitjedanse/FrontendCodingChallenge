@@ -40,6 +40,7 @@ export default function StepSlider({
   return (
     <Box width={300} className="flex w-96">
       <Slider
+        data-testid="step-slider"
         size={size}
         disabled={disabled}
         defaultValue={defaultValue}

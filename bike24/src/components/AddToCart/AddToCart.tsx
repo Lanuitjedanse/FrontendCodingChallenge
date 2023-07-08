@@ -97,7 +97,10 @@ export const AddToCart = ({
   }, [selectedProduct?.price, desiredProductQuantity, totalPrice]);
 
   return (
-    <div className="flex flex-col md:flex-row space-y-3 space-x-3 items-center">
+    <div
+      data-testid="add-to-cart__container"
+      className="flex flex-col md:flex-row space-y-3 space-x-3 items-center"
+    >
       <div className="mt-8 mx-4">
         <BasicSelect
           options={products}
@@ -107,7 +110,7 @@ export const AddToCart = ({
         ></BasicSelect>
       </div>
 
-      <div className="">
+      <div>
         <StepSlider
           disabled={!selectedProduct || isMaxProductTypeReached}
           defaultValue={desiredProductQuantity}
@@ -136,6 +139,7 @@ export const AddToCart = ({
       </div>
       <div className="flex flex-col">
         <ConfirmCart
+          data-tesid="add-to-cart__confirm-cart"
           label="Add to cart"
           color="primary"
           totalPrice={totalPrice || 0}

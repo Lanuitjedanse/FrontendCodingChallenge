@@ -11,7 +11,8 @@
     "build-storybook": "storybook build",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:all": "jest --runInBand"
+    "test:all": "jest --runInBand",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

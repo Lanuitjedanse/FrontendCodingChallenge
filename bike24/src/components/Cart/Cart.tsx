@@ -161,6 +161,7 @@ export default function Cart({
           <ProgressBar progress={selectedProducts.length * 10} maxValue={10} />
         </div>
         <ConfirmCart
+          data-testid="cart__confirm-cart"
           disabled={!totalPrice || !products}
           label="Confirm Purchase"
           totalPrice={totalPrice}

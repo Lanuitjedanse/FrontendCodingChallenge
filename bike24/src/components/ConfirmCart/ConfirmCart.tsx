@@ -28,6 +28,7 @@ export default function ConfirmCart({
     <div className="flex space-x-3">
       <NumberIndicator value={`${totalPrice} €`} width="w-32" />
       <BasicButton
+        data-testid="confirm-cart__add-to-cart"
         color={color}
         label={label}
         disabled={disabled}
