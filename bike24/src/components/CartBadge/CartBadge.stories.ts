@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../../app/globals.css";
 import CartBadge from "./CartBadge";
 
 const meta: Meta<typeof CartBadge> = {

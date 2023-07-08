@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../../app/globals.css";
 import BasicPageLayout from "./BasicPageLayout";
 
 const meta: Meta<typeof BasicPageLayout> = {

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../../app/globals.css";
 import RemoveOrAddButtons from "./RemoveOrAddButtons";
 
 const meta: Meta<typeof RemoveOrAddButtons> = {

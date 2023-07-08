@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../../app/globals.css";
 import BasicSelect from "./BasicSelect";
 
 const meta: Meta<typeof BasicSelect> = {

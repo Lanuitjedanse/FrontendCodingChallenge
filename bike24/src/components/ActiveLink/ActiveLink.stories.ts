@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../../app/globals.css";
 import ActiveLink from "./ActiveLink";
 
 const meta: Meta<typeof ActiveLink> = {

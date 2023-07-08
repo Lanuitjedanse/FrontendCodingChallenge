@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../../app/globals.css";
 import ProductsTable from "./ProductsTable";
 
 const meta: Meta<typeof ProductsTable> = {

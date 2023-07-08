@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../../app/globals.css";
 import NumberIndicator from "./NumberIndicator";
 
 const meta: Meta<typeof NumberIndicator> = {
