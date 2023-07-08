@@ -99,7 +99,7 @@ export default function Cart({
   }, [newSelectedProduct]);
 
   const onSelectProduct = (product: Product, quantity: number) => {
-    setIsQuantityAllowed(quantity <= product.maxAmount);
+    setIsQuantityAllowed(true);
     if (selectedProducts?.length) {
       const itemInList = selectedProducts.find((p) => p.id === product.id);
 
@@ -109,7 +109,6 @@ export default function Cart({
         );
       }
     }
-    // first check if id matches with one of the time, compare quantity
   };
 
   // move to utils file

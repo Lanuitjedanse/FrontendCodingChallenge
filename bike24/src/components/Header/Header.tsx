@@ -12,7 +12,9 @@ interface HeaderProps {
 export default function Header({ quantity, listItem, router }: HeaderProps) {
   return (
     <div className="fixed w-full flex h-18 bg-blue-600 text-white items-center px-4 py-2 justify-between z-10">
-      <span className="font-bold text-2xl">BIKE24</span>
+      <ActiveLink href="/" router={router}>
+        <span className="font-bold text-2xl">BIKE24</span>
+      </ActiveLink>
 
       <nav className="flex items-center space-x-2">
         <ul className="flex items-center space-x-4">

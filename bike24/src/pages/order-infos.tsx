@@ -36,7 +36,7 @@ export default function OrderInfos() {
   return (
     <div>
       <BasicPageLayout router={router} quantity={0}>
-        <div className="flex flex-col items-center h-screen min-w-full justify-center">
+        <div className="flex flex-col items-center min-h-screen min-w-full justify-center">
           {order && (
             <OrderConfirmation
               totalProductQuantity={productsTotalQuantity}
@@ -44,12 +44,6 @@ export default function OrderInfos() {
               totalPrice={order.totalPrice}
             />
           )}
-          <div className="absolute bottom-0 left-0 m-4">
-            <BasicButton
-              onClick={handleGoBack}
-              label="Back to cart"
-            ></BasicButton>
-          </div>
         </div>
       </BasicPageLayout>
     </div>

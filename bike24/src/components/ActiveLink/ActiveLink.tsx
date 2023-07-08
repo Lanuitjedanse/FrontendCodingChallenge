@@ -22,7 +22,7 @@ export default function ActiveLink({
     <a
       href={href}
       onClick={handleClick}
-      className={router.asPath === href ? "font-bold underline" : "font-normal"}
+      className={router.asPath === href ? "font-bold" : "font-normal"}
     >
       {children}
     </a>

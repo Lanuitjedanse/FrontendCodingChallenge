@@ -55,7 +55,11 @@ export default function Index({ onConfirmOrder }: IndexProps) {
     if (data) {
       setProducts(JSON.parse(data));
     }
-  }, [data]);
+    if (error) {
+      console.log("error while fetching products: ", error);
+      setFecthError(error);
+    }
+  }, [data, error]);
 
   const handleConfirmOrder = (
     selectedProducts: SelectedProduct[],
