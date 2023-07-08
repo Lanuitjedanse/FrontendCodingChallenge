@@ -12,7 +12,7 @@ type Story = StoryObj<typeof OrderConfirmation>;
 
 export const Primary: Story = {
   args: {
-    orderNumber: 637395,
+    orderReference: "GSFWK663",
     totalPrice: 839403,
     selectedProducts: [
       {
