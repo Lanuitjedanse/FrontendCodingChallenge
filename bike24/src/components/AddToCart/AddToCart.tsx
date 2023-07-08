@@ -19,27 +19,44 @@ interface AddToCartProps {
     desiredQuantity,
     totalPrice,
   }: SelectedProduct) => void;
+  isQuantityAllowed: boolean;
+  isMaxProductTypeReached: boolean;
+
+  onSelectProduct: (product: Product, quantity: number) => void;
 }
 
-export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>();
+export const AddToCart = ({
+  products,
+  isQuantityAllowed,
+  isMaxProductTypeReached,
+  onAddProductToCart,
+  onSelectProduct,
+}: AddToCartProps) => {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [desiredProductQuantity, setDesiredProductQuantity] =
     useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const getTotalPrice = (quantity: number, unitPrice: number): number => {
     const totalPrice = quantity * unitPrice;
-    return Number(totalPrice.toFixed(2));
+    return parseFloat(totalPrice.toFixed(2));
   };
 
-  const handleChangeProduct = (e: Product) => {
-    setSelectedProduct(e);
+  const handleChangeProduct = (product: Product) => {
+    setSelectedProduct(product);
   };
 
-  const handleChangeDesiredQuantity = (e: number) => {
-    setDesiredProductQuantity(e);
+  const handleChangeDesiredQuantity = (quantity: number) => {
+    if (selectedProduct) {
+      onSelectProduct(selectedProduct, quantity);
+    }
 
-    const totalPrice = getTotalPrice(e, selectedProduct?.price as number);
+    setDesiredProductQuantity(quantity);
+
+    const totalPrice = getTotalPrice(
+      quantity,
+      selectedProduct?.price as number
+    );
     setTotalPrice(totalPrice);
   };
 
@@ -58,6 +75,15 @@ export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
   };
 
   useEffect(() => {
+    if (desiredProductQuantity) {
+      setDesiredProductQuantity(desiredProductQuantity);
+      if (selectedProduct) {
+        onSelectProduct(selectedProduct, desiredProductQuantity);
+      }
+    }
+  }, [selectedProduct, desiredProductQuantity]);
+
+  useEffect(() => {
     setDesiredProductQuantity(0);
     setTotalPrice(0);
   }, [selectedProduct]);
@@ -72,37 +98,61 @@ export const AddToCart = ({ products, onAddProductToCart }: AddToCartProps) => {
 
   return (
     <div className="flex flex-col md:flex-row space-y-3 space-x-3 items-center">
-      <BasicSelect
-        options={products}
-        label="Products"
-        helperText="Select a product from the list"
-        onChange={handleChangeProduct}
-      ></BasicSelect>
+      <div className="mt-8 mx-4">
+        <BasicSelect
+          options={products}
+          label="Products"
+          helperText="Select a product from the list"
+          onChange={handleChangeProduct}
+        ></BasicSelect>
+      </div>
 
-      <StepSlider
-        disabled={!selectedProduct}
-        defaultValue={desiredProductQuantity}
-        max={selectedProduct?.maxAmount || 0}
-        min={0}
-        handleChangeCallback={handleChangeDesiredQuantity}
-      ></StepSlider>
+      <div className="">
+        <StepSlider
+          disabled={!selectedProduct || isMaxProductTypeReached}
+          defaultValue={desiredProductQuantity}
+          max={selectedProduct?.maxAmount || 0}
+          min={0}
+          handleChangeCallback={handleChangeDesiredQuantity}
+        ></StepSlider>
 
-      <div className="flex items-center space-x-3">
+        {!isQuantityAllowed && (
+          <p className="error-message">
+            You have reached the max quantity for this product
+          </p>
+        )}
+      </div>
+
+      <div className="flex items-center space-x-3 w-40 justify-center">
         <NumberIndicator
           width="w-12"
           height="h-12"
           value={desiredProductQuantity}
         ></NumberIndicator>
-        <span>x</span>
-        <span>{selectedProduct?.price || 0} €</span>
+        <div className="min-w-lg flex space-x-3">
+          <span>x</span>
+          <span>{selectedProduct?.price || 0} €</span>
+        </div>
       </div>
-      <ConfirmCart
-        label="Add to cart"
-        color="primary"
-        totalPrice={totalPrice || 0}
-        disabled={!selectedProduct || !totalPrice}
-        onClick={handleAddProductToCart}
-      ></ConfirmCart>
+      <div className="flex flex-col">
+        <ConfirmCart
+          label="Add to cart"
+          color="primary"
+          totalPrice={totalPrice || 0}
+          disabled={
+            !selectedProduct ||
+            !totalPrice ||
+            !isQuantityAllowed ||
+            isMaxProductTypeReached
+          }
+          onClick={handleAddProductToCart}
+        ></ConfirmCart>
+        {isMaxProductTypeReached && (
+          <p className="error-message mt-16">
+            You cannot add more than 10 different product types in your cart
+          </p>
+        )}
+      </div>
     </div>
   );
 };

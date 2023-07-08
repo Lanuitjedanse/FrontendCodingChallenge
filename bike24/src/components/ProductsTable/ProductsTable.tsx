@@ -5,18 +5,17 @@ import { UUID } from "crypto";
 import RemoveOrAddButtons from "../RemoveOrAddButtons/RemoveOrAddButtons";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ConfirmCart from "../ConfirmCart/ConfirmCart";
 
 interface ProductsOverviewProps {
   products: SelectedProduct[];
-  onConfirmOrder: (products: SelectedProduct[], totalPrice: number) => void;
   onDeleteRows: (products: SelectedProduct[] | []) => void;
+  onQuantityUpdate: (products: SelectedProduct[]) => void;
 }
 
 export default function ProductsTable({
   products,
-  onConfirmOrder,
   onDeleteRows,
+  onQuantityUpdate,
 }: ProductsOverviewProps) {
   const columns: GridColDef[] = [
     {
@@ -67,7 +66,7 @@ export default function ProductsTable({
       align: "right",
       width: 200,
       valueFormatter: (params) => {
-        return `${params.value} €`;
+        return `${parseFloat(params.value.toFixed(2))} €`;
       },
     },
   ];
@@ -75,7 +74,6 @@ export default function ProductsTable({
   const [allProducts, setAllProducts] = React.useState<SelectedProduct[]>([]);
   const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
   const [allRowsSelected, setAllRowsSelected] = React.useState<boolean>(false);
-  const [totalPrice, setTotalPrice] = React.useState<number>(0);
 
   const getRowId = (row: SelectedProduct) => row.id;
 
@@ -94,15 +92,6 @@ export default function ProductsTable({
     });
     setAllProducts(updatedProducts);
   }, [products]);
-
-  React.useEffect(() => {
-    const totalPrice = allProducts.reduce(
-      (accumulator, product) => accumulator + product.totalPrice,
-      0
-    );
-
-    setTotalPrice(Number(totalPrice.toFixed(2)));
-  }, [allProducts]);
 
   React.useEffect(() => {
     setAllRowsSelected(products.length === selectedRows.length);
@@ -126,7 +115,6 @@ export default function ProductsTable({
   };
 
   const handleQuantityChange = (productId: UUID, newQuantity: number): void => {
-    console.log("newQuantity", newQuantity);
     const updatedProducts = allProducts.map((item) => {
       if (item.id === productId) {
         const totalPrice = item.price * newQuantity;
@@ -140,10 +128,7 @@ export default function ProductsTable({
     );
 
     setAllProducts(filteredProducts);
-  };
-
-  const handleConfirmOrder = () => {
-    onConfirmOrder(allProducts, totalPrice);
+    onQuantityUpdate(filteredProducts);
   };
 
   return (
@@ -165,26 +150,18 @@ export default function ProductsTable({
         rows={allProducts}
         getRowId={getRowId}
         columns={columns}
-        rowHeight={124}
+        rowHeight={85}
         rowSelectionModel={selectedRows}
         onRowSelectionModelChange={handleSelectionModelChange}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 25 },
+            paginationModel: { page: 2, pageSize: 5 },
           },
         }}
         pageSizeOptions={[10]}
         checkboxSelection
         disableRowSelectionOnClick={true}
         disableColumnMenu={true}
-      />
-
-      {/* move that component and its logic outside of the table */}
-      <ConfirmCart
-        disabled={!totalPrice || !products}
-        label="Confirm Purchase"
-        totalPrice={totalPrice}
-        onClick={handleConfirmOrder}
       />
     </div>
   );

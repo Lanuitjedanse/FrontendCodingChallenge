@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 import { BasicButton } from "@/components/BasicButton/BasicButton";
-import BasicPageLayout from "@/components/BasicPageLayout/BasicPageLayout.stories";
+import BasicPageLayout from "@/components/BasicPageLayout/BasicPageLayout";
 import OrderConfirmation from "@/components/OrderConfirmation/OrderConfirmation";
 import { OrderConfirmationInfos } from "@/types/order-confirmation-infos";
 import { SelectedProduct } from "@/types/selected-product.type";
@@ -25,24 +25,32 @@ export default function OrderInfos() {
       quantity += product.desiredQuantity;
     });
     setProductsTotalQuantity(quantity);
-    const orderInfos = {
+    const orderInfos: OrderConfirmationInfos = {
       selectedProducts: receivedProps?.selectedProducts,
       totalPrice: receivedProps?.totalPrice,
+      totalProductQuantity: productsTotalQuantity,
     };
 
     setOrder(orderInfos);
   }, [router.query]);
   return (
     <div>
-      <BasicPageLayout router={router} quantity={productsTotalQuantity}>
-        {order && (
-          <OrderConfirmation
-            selectedProducts={order?.selectedProducts}
-            totalPrice={order.totalPrice}
-          />
-        )}
-
-        <BasicButton onClick={handleGoBack} label="Go back"></BasicButton>
+      <BasicPageLayout router={router} quantity={0}>
+        <div className="flex flex-col items-center h-screen min-w-full justify-center">
+          {order && (
+            <OrderConfirmation
+              totalProductQuantity={productsTotalQuantity}
+              selectedProducts={order?.selectedProducts}
+              totalPrice={order.totalPrice}
+            />
+          )}
+          <div className="absolute bottom-0 left-0 m-4">
+            <BasicButton
+              onClick={handleGoBack}
+              label="Back to cart"
+            ></BasicButton>
+          </div>
+        </div>
       </BasicPageLayout>
     </div>
   );

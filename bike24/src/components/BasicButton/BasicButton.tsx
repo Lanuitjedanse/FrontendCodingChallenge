@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "@mui/material/Button";
-import "./BasicButton.css";
+import "./BasicButton.module.css";
 
 export interface ButtonProps {
   variant?: "contained" | "outlined" | "text";
@@ -26,13 +26,11 @@ export const BasicButton = ({
   color = "primary",
   size = "small",
   disabled = false,
-  style,
   label,
   onClick,
 }: ButtonProps) => {
   return (
     <Button
-      className={style}
       variant={variant}
       color={color}
       size={size}

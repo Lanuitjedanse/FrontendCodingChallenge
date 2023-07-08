@@ -1,4 +1,3 @@
-import "../../app/globals.css";
 import Header from "../Header/Header";
 import { useRouter, NextRouter } from "next/router";
 
@@ -17,9 +16,7 @@ export default function BasicPageLayout({
   return (
     <>
       <Header router={router} quantity={quantity}></Header>
-      <div className="flex flex-col h-full w-full items-center mt-18">
-        {children}
-      </div>
+      <div className="flex flex-col h-full w-full items-center">{children}</div>
     </>
   );
 }

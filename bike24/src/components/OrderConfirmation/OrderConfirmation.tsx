@@ -51,7 +51,7 @@ export default function OrderConfirmation({
     }
   }, [selectedProducts]);
   return (
-    <div className="flex flex-col p-4 justify-center items-center">
+    <div className="flex flex-col p-4 justify-center items-center max-w-5xl">
       <h1 className="font-bold text-5xl">Order #{orderNumber} Confirmed!</h1>
       <CheckCircleIcon
         className="text-green-500"

@@ -38,7 +38,7 @@ export default function StepSlider({
   }, [defaultValue]);
 
   return (
-    <Box width={300}>
+    <Box width={300} className="flex flex-shrink-0">
       <Slider
         size={size}
         disabled={disabled}

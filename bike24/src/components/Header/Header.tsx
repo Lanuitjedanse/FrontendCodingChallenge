@@ -9,14 +9,11 @@ interface HeaderProps {
   router: NextRouter;
 }
 
-export default function Header({
-  quantity,
-  listItem = [{ name: "My Orders", href: "/orders" }],
-  router,
-}: HeaderProps) {
+export default function Header({ quantity, listItem, router }: HeaderProps) {
   return (
-    <div className="fixed w-full flex h-24 bg-blue-600 text-white items-center px-4 py-2 justify-between">
+    <div className="fixed w-full flex h-18 bg-blue-600 text-white items-center px-4 py-2 justify-between z-10">
       <span className="font-bold text-2xl">BIKE24</span>
+
       <nav className="flex items-center space-x-2">
         <ul className="flex items-center space-x-4">
           {listItem &&
@@ -28,7 +25,9 @@ export default function Header({
               </li>
             ))}
         </ul>
-        <CartBadge quantity={quantity}></CartBadge>
+        <ActiveLink href="/" router={router}>
+          <CartBadge quantity={quantity}></CartBadge>
+        </ActiveLink>
       </nav>
     </div>
   );
