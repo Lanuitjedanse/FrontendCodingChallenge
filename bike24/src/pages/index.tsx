@@ -1,5 +1,5 @@
 "use client";
-import Header from "@/components/Header/Header";
+import useSWR from "swr";
 import Cart from "@/components/Cart/Cart";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -8,7 +8,8 @@ import "@/app/globals.css";
 import BasicPageLayout from "@/components/BasicPageLayout/BasicPageLayout";
 import { OrderConfirmationInfos } from "@/types/order-confirmation-infos";
 import Product from "@/types/product.type";
-
+import Error from "next/error";
+import { fetcher } from "@/utils/fetch-wrapper";
 interface IndexProps {
   onConfirmOrder: (
     selectedProducts: SelectedProduct[],
@@ -20,22 +21,10 @@ export default function Index({ onConfirmOrder }: IndexProps) {
   const [orders, setOrders] = useState<OrderConfirmationInfos[]>([]);
   const [totalProductQuantity, setTotalProductQuantity] = useState<number>(0);
   const [products, setProducts] = useState<Product[] | null>(null);
+  const [fetchError, setFecthError] = useState<Error | null>(null);
 
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("/data/products.JSON");
-        const jsonData = await response.json();
-        setProducts(jsonData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  const { data, error } = useSWR("/api/getProducts", fetcher);
 
   const onIncreaseQuantity = (selectedProduct: SelectedProduct) => {
     const newQuantity = selectedProduct.desiredQuantity + totalProductQuantity;
@@ -61,6 +50,12 @@ export default function Index({ onConfirmOrder }: IndexProps) {
       setTotalProductQuantity(newQuantity);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      setProducts(JSON.parse(data));
+    }
+  }, [data]);
 
   const handleConfirmOrder = (
     selectedProducts: SelectedProduct[],
