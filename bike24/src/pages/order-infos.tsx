@@ -6,15 +6,16 @@ import { OrderConfirmationInfos } from "@/types/order-confirmation-infos";
 import { SelectedProduct } from "@/types/selected-product.type";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function OrderInfos() {
   const [order, setOrder] = useState<OrderConfirmationInfos | null>(null);
 
   const [productsTotalQuantity, setProductsTotalQuantity] = useState<number>(0);
+  let [orderNumber, setOrderNumber] = useState<number>(0);
+
   const router = useRouter();
-  const handleGoBack = () => {
-    router.push("/");
-  };
+
   useEffect(() => {
     const { props } = router.query;
     let quantity = 0;
@@ -32,6 +33,7 @@ export default function OrderInfos() {
     };
 
     setOrder(orderInfos);
+    setOrderNumber(uuidv4().slice(1, 8).toUpperCase());
   }, [router.query]);
   return (
     <div>
@@ -39,6 +41,7 @@ export default function OrderInfos() {
         <div className="flex flex-col items-center min-h-screen min-w-full justify-center">
           {order && (
             <OrderConfirmation
+              orderNumber={orderNumber}
               totalProductQuantity={productsTotalQuantity}
               selectedProducts={order?.selectedProducts}
               totalPrice={order.totalPrice}
